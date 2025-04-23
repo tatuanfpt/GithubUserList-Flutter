@@ -14,8 +14,10 @@ class GitHubService {
   Future<List<GitHubUser>> fetchUsers({required int perPage, required int since}) async {
     final url = '$_baseUrl/users?per_page=$perPage&since=$since';
     final response = await client.get(url);
-    final List<dynamic> data = response;
-    return data.map((json) => GitHubUser.fromJson(json)).toList();
+    if (response is List) {
+      return response.map((json) => GitHubUser.fromJson(json)).toList();
+    }
+    throw Exception('Invalid response format from GitHub API');
   }
 
   /// Fetches detailed user information

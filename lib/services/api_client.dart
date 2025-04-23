@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 /// Protocol-like interface for network requests (for testing)
 abstract class ApiClient {
-  Future<Map<String, dynamic>> get(String url);
+  Future<dynamic> get(String url);
 }
 
 /// Handles HTTP requests
@@ -14,7 +14,7 @@ class HttpApiClient implements ApiClient {
   HttpApiClient({http.Client? client}) : client = client ?? http.Client();
 
   @override
-  Future<Map<String, dynamic>> get(String url) async {
+  Future<dynamic> get(String url) async {
     final response = await client.get(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json;charset=utf-8'},

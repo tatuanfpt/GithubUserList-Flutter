@@ -20,7 +20,8 @@ void main() {
     final mockUsers = [
       {'id': 1, 'login': 'test', 'avatar_url': 'https://avatar.com', 'html_url': 'https://github.com'}
     ];
-    when(mockClient.get(any)).thenAnswer((_) async => mockUsers);
+    when(mockClient.get('https://api.github.com/users?per_page=20&since=0'))
+        .thenAnswer((_) async => mockUsers);
 
     final result = await service.fetchUsers(perPage: 20, since: 0);
 
@@ -30,7 +31,8 @@ void main() {
   });
 
   test('fetchUsers throws exception on failure', () async {
-    when(mockClient.get(any)).thenThrow(Exception('Network error'));
+    when(mockClient.get('https://api.github.com/users?per_page=20&since=0'))
+        .thenThrow(Exception('Network error'));
 
     expect(() => service.fetchUsers(perPage: 20, since: 0), throwsException);
   });

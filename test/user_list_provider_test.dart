@@ -25,9 +25,9 @@ void main() {
     final mockUsers = [
       GitHubUser(id: 1, login: 'test', avatarUrl: 'https://avatar.com', htmlUrl: 'https://github.com')
     ];
-    when(mockService.fetchUsers(perPage: anyNamed('perPage'), since: anyNamed('since')))
+    when(mockService.fetchUsers(perPage: 20, since: 0))
         .thenAnswer((_) async => mockUsers);
-    when(mockDbService.insertUsers(any)).thenAnswer((_) async => {});
+    when(mockDbService.insertUsers(mockUsers)).thenAnswer((_) async => {});
     when(mockDbService.fetchUsers()).thenAnswer((_) async => []);
 
     await provider.fetchUsers();
@@ -38,7 +38,7 @@ void main() {
   });
 
   test('fetchUsers sets error on failure', () async {
-    when(mockService.fetchUsers(perPage: anyNamed('perPage'), since: anyNamed('since')))
+    when(mockService.fetchUsers(perPage: 20, since: 0))
         .thenThrow(Exception('Network error'));
     when(mockDbService.fetchUsers()).thenAnswer((_) async => []);
 
