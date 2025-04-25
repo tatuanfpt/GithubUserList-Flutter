@@ -8,15 +8,21 @@ plugins {
 android {
     namespace = "com.example.github_users_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/kotlin")
+        }
     }
 
     defaultConfig {
@@ -32,13 +38,21 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0")
 }
